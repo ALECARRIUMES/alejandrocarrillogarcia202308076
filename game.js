@@ -76,6 +76,7 @@
 
   let cuerpo, rumbo, cola, comida;
   let puntos, manzanas, nivel, tickMs, mejor;
+  let pasosDesdeManzana;
   let estado;              // "listo" | "jugando" | "pausa" | "fin"
   let acumulado, anterior, finDesde;
 
@@ -117,6 +118,7 @@
     manzanas = 0;
     nivel = 1;
     tickMs = MS_INICIAL;
+    pasosDesdeManzana = null;
     acumulado = 0;
     finDesde = 0;
     comida = celdaLibre();
@@ -150,11 +152,14 @@
     }
 
     cuerpo.unshift(cabeza);
+    if (pasosDesdeManzana !== null) pasosDesdeManzana += 1;
 
     if (cabeza.x === comida.x && cabeza.y === comida.y) {
+      const enRacha = pasosDesdeManzana !== null && pasosDesdeManzana <= 15;
       manzanas += 1;
       nivel = Math.floor(manzanas / MANZANAS_POR_NIVEL) + 1;
-      puntos += 10 * nivel;
+      puntos += 10 * nivel * (enRacha ? 2 : 1);
+      pasosDesdeManzana = 0;
       tickMs = Math.max(MS_MINIMO, MS_INICIAL - manzanas * MS_POR_MANZANA);
       comida = celdaLibre();
     } else {
