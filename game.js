@@ -98,6 +98,13 @@
     }
   }
 
+  function borrarRecord() {
+    if (!window.confirm("¿Borrar la mejor marca?")) return;
+    mejor = 0;
+    guardarRecord(mejor);
+    pintarDatos();
+  }
+
   function celdaLibre() {
     const libres = [];
     for (let y = 0; y < ROWS; y += 1) {
@@ -331,6 +338,7 @@
   document.getElementById("btn-iniciar").addEventListener("click", comenzar);
   document.getElementById("btn-pausa").addEventListener("click", alternarPausa);
   document.getElementById("btn-ok").addEventListener("click", botonPrincipal);
+  document.getElementById("btn-borrar-record").addEventListener("click", borrarRecord);
 
   // Deslizar sobre la pantalla, para jugar con el pulgar.
   let origen = null;
